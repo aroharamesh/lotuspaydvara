@@ -1,4 +1,4 @@
-
+import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from routes.customers import router as customer_router
 from routes.bank_accounts import router as bank_account_router
@@ -55,3 +55,7 @@ app.include_router(source_router, prefix="")
 app.include_router(subscriptions_router, prefix="")
 app.include_router(achdebits_router, prefix="")
 app.include_router(mandate_router, prefix="")
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

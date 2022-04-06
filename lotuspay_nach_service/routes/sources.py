@@ -39,7 +39,7 @@ async def get_source_or_404(
     return SourceDB(**raw_source)
 
 
-@router.post("/source", response_model=SourceDB, status_code=status.HTTP_201_CREATED,  tags=["Sources"])
+@router.post("/source", status_code=status.HTTP_201_CREATED,  tags=["Sources"])
 async def create_source(
     source: SourceCreate,
         database: Database = Depends(get_database)
@@ -83,7 +83,7 @@ async def create_source(
     return result
 
 
-@router.post("/{customer_id}", response_model=SourceDB, status_code=status.HTTP_201_CREATED,  tags=["Sources"])
+@router.post("/source/{customer_id}", status_code=status.HTTP_201_CREATED,  tags=["Sources"])
 async def customer_source(
     source2: Source2Create,
         database: Database = Depends(get_database)
@@ -132,7 +132,7 @@ async def customer_source(
     return result
 
 
-@router.post("/{bank_account}", response_model=SourceDB, status_code=status.HTTP_201_CREATED,  tags=["Sources"])
+@router.post("/source/{bank_account}", response_model=SourceDB, status_code=status.HTTP_201_CREATED,  tags=["Sources"])
 async def source_bank_account(
     source3: Source3Create,
         database: Database = Depends(get_database)
