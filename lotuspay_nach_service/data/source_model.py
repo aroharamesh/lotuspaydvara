@@ -92,6 +92,5 @@ sources = sqlalchemy.Table(
     sqlalchemy.Column("customer", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account_token", sqlalchemy.String(length=255), nullable=True),
-    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True),
-    # sqlalchemy.Column("created_date_time",sqlalchemy.DateTime, default=datetime.datetime.utcnow)
+    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )

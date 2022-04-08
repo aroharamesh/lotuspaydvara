@@ -15,10 +15,10 @@ class CustomerBase(BaseModel):
 
 
 class CustomerCreate(BaseModel):
-    email: str
-    mobile: str
-    name: str
-    pan: str
+    email: str = 'dvara1@dvara.com'
+    mobile: str = '1234567890'
+    name: str = 'DVARA1'
+    pan: str = 'DVARA1'
 
 
 class CustomerDB(CustomerBase):
@@ -38,6 +38,5 @@ customers = sqlalchemy.Table(
     sqlalchemy.Column("name", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("pan", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True),
-    # sqlalchemy.Column("created_date_time",sqlalchemy.DateTime, default=datetime.datetime.utcnow)
 )
 

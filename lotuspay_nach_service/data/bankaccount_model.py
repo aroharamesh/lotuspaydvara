@@ -16,10 +16,10 @@ class BankAccountBase(BaseModel):
 
 
 class BankAccountCreate(BaseModel):
-    account_holder_name: Optional[str] = None
-    account_ifsc: Optional[str] = None
-    account_number: Optional[str] = None
-    account_type: Optional[str] = None
+    account_holder_name: Optional[str] = 'Aroha Tech'
+    account_ifsc: Optional[str] = 'ICIC0000047'
+    account_number: Optional[str] = '12341234'
+    account_type: Optional[str] = 'savings'
     customer_id: Optional[str] = None
 
 
@@ -36,12 +36,9 @@ bankaccounts = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, autoincrement=True),
     sqlalchemy.Column("bank_account_id", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("customer_id", sqlalchemy.String(length=255), nullable=True),
-    # sqlalchemy.Column("customer_id", sqlalchemy.ForeignKey('customers.customer_id')),
     sqlalchemy.Column("account_holder_name", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("account_ifsc", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("account_number", sqlalchemy.String(length=255), unique=True, nullable=True),
     sqlalchemy.Column("account_type", sqlalchemy.String(length=255), nullable=True),
-    # sqlalchemy.Column("status", sqlalchemy.String(length=255)),
-    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True),
-    # sqlalchemy.Column("created_date_time",sqlalchemy.DateTime, default=datetime.datetime.utcnow)
+    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )

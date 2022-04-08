@@ -39,15 +39,14 @@ subscriptions = sqlalchemy.Table(
     subscription_metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, autoincrement=True),
     sqlalchemy.Column("subscription_id", sqlalchemy.String(length=255), nullable=True),
-    sqlalchemy.Column("amount", sqlalchemy.Integer, unique=True, nullable=True),
-    sqlalchemy.Column("count", sqlalchemy.Integer, unique=True, nullable=True),
+    sqlalchemy.Column("amount", sqlalchemy.Integer, nullable=True),
+    sqlalchemy.Column("count", sqlalchemy.Integer, nullable=True),
     sqlalchemy.Column("day_of_month", sqlalchemy.Integer, nullable=True),
     sqlalchemy.Column("interval", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("mandate", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("name", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("start_date", sqlalchemy.String(length=255), nullable=True),
-    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True),
-    # sqlalchemy.Column("created_date_time",sqlalchemy.DateTime, default=datetime.datetime.utcnow)
+    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )
 
 
@@ -56,6 +55,5 @@ subscriptions_cancel = sqlalchemy.Table(
     subscription_metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, autoincrement=True),
     sqlalchemy.Column("subscription_id", sqlalchemy.String(length=255), nullable=True),
-    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True),
-    # sqlalchemy.Column("created_date_time",sqlalchemy.DateTime, default=datetime.datetime.utcnow)
+    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )

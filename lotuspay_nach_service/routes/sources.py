@@ -25,13 +25,8 @@ async def get_source_or_404(
     source: str,
     database: Database = Depends(get_database)
 ) -> SourceDB:
-    # print('coming inside of get source')
-    # print(source)
-
     select_query = sources.select().where(sources.c.source_id == source)
-    # print(select_query)
     raw_source = await database.fetch_one(select_query)
-    # print(raw_source)
 
     if raw_source is None:
         return None
@@ -42,11 +37,10 @@ async def get_source_or_404(
 @router.post("/source", status_code=status.HTTP_201_CREATED,  tags=["Sources"])
 async def create_source(
     source: SourceCreate,
-        database: Database = Depends(get_database)
+    database: Database = Depends(get_database)
 ) -> SourceDB:
 
     try:
-        print('Coming inside of Source')
         source_info = source.dict()
         source_id = source_info.get('source_id')
 
@@ -55,12 +49,12 @@ async def create_source(
             response_source_id = await lotus_pay_post_source('sources', source_info)
             if response_source_id is not None:
                 store_record_time = datetime.now()
-                nach_debit = source_info.get('nach_debit')
+                save_source = source_info.get('nach_debit')
                 nach_type = source_info.get('type')
-                nach_debit['type'] = nach_type
-                nach_debit['source_id'] = response_source_id
-                nach_debit['created_date'] = store_record_time
-                insert_query = sources.insert().values(nach_debit)
+                save_source['type'] = nach_type
+                save_source['source_id'] = response_source_id
+                save_source['created_date'] = store_record_time
+                insert_query = sources.insert().values(save_source)
                 source_id = await database.execute(insert_query)
 
                 result = JSONResponse(status_code=200, content={"source_id": response_source_id})
@@ -78,7 +72,7 @@ async def create_source(
     except Exception as e:
         log_id = await insert_logs('MYSQL', 'DB', '500', 'Error Occurred at DB level',
                                    datetime.now())
-        result = JSONResponse(status_code=500, content={"message": "Error Occurred at DB level"})
+        result = JSONResponse(status_code=500, content={"message": f"Error Occurred at DB level - {e.args[0]}"})
 
     return result
 
@@ -102,14 +96,14 @@ async def customer_source(
             if response_source_id is not None:
                 store_record_time = datetime.now()
 
-                nach_debit = source_info.get('nach_debit')
+                save_source = source_info.get('nach_debit')
                 nach_type = source_info.get('type')
-                nach_debit['type'] = nach_type
-                nach_debit['source_id'] = response_source_id
-                nach_debit['created_date'] = store_record_time
-                nach_debit['redirect'] = str_redirect
-                nach_debit['customer'] = customer
-                insert_query = sources.insert().values(nach_debit)
+                save_source['type'] = nach_type
+                save_source['source_id'] = response_source_id
+                save_source['created_date'] = store_record_time
+                save_source['redirect'] = str_redirect
+                save_source['customer'] = customer
+                insert_query = sources.insert().values(save_source)
                 source_id = await database.execute(insert_query)
 
                 result = JSONResponse(status_code=200, content={"source_id": response_source_id})
@@ -153,14 +147,14 @@ async def source_bank_account(
         if response_source_id is not None:
             store_record_time = datetime.now()
 
-            nach_debit = source_info.get('nach_debit')
+            save_source = source_info.get('nach_debit')
             nach_type = source_info.get('type')
-            nach_debit['type'] = nach_type
-            nach_debit['source_id'] = response_source_id
-            nach_debit['created_date'] = store_record_time
-            nach_debit['redirect'] = str_redirect
-            nach_debit['bank_account'] = bank_account
-            insert_query = sources.insert().values(nach_debit)
+            save_source['type'] = nach_type
+            save_source['source_id'] = response_source_id
+            save_source['created_date'] = store_record_time
+            save_source['redirect'] = str_redirect
+            save_source['bank_account'] = bank_account
+            insert_query = sources.insert().values(save_source)
             source_id = await database.execute(insert_query)
 
             result = JSONResponse(status_code=200, content={"source_id": response_source_id})

@@ -2,10 +2,9 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from datetime import datetime
-
 from databases import Database
 from data.database import get_database, sqlalchemy_engine, insert_logs
-from gateway.lotuspay_customers import lotus_pay_post
+from gateway.lotuspay_customers import lotuspay_post_customer
 from data.customer_model import (
     customers,
     CustomerBase,
@@ -20,12 +19,8 @@ router = APIRouter()
 async def get_customer_or_404(
     pan: str, database: Database = Depends(get_database)
 ) -> CustomerDB:
-    # print('coming inside of get customer')
-    # print(pan)
     select_query = customers.select().where(customers.c.pan == pan)
-    # print(select_query)
     raw_customer = await database.fetch_one(select_query)
-    # print(raw_customer)
 
     if raw_customer is None:
         return None
@@ -42,12 +37,8 @@ async def create_customer(
         cust_info = customer.dict()
         pan_no = cust_info.get('pan')
         verify_pan_in_db = await get_customer_or_404(pan_no, database)
-        print(verify_pan_in_db)
         if verify_pan_in_db is None:
-            print('coming after None')
-            response_customer_id = await lotus_pay_post('customers', cust_info)
-            print()
-            # print(response_customer_id)
+            response_customer_id = await lotuspay_post_customer('customers', cust_info)
             if response_customer_id is not None:
                 store_record_time = datetime.now()
                 customer_info = {
@@ -66,9 +57,9 @@ async def create_customer(
             log_id = await insert_logs('MYSQL', 'DB', 'NA', '200', 'PAN Already Exists in DB',
                                        datetime.now())
             result = JSONResponse(status_code=200, content={"message": "PAN Already Exists in DB"})
-    except:
+    except Exception as e:
         log_id = await insert_logs('MYSQL', 'DB', 'NA', '500', 'Error Occurred at DB level',
                                    datetime.now())
-        result = JSONResponse(status_code=500, content={"message": "Error Occurred at DB level"})
+        result = JSONResponse(status_code=500, content={"message": f"Error Occurred at DB level - {e.args[0]}"})
     return result
 

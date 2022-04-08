@@ -6,6 +6,7 @@ from routes.sources import router as source_router
 from routes.subscriptions import router as subscriptions_router
 from routes.ach_debits import router as achdebits_router
 from routes.mandates import router as mandate_router
+from routes.events_status import router as events_router
 from data.database import get_database, sqlalchemy_engine
 from data.customer_model import (customer_metadata)
 from data.bankaccount_model import (bankaccount_metadata)
@@ -55,6 +56,7 @@ app.include_router(source_router, prefix="")
 app.include_router(subscriptions_router, prefix="")
 app.include_router(achdebits_router, prefix="")
 app.include_router(mandate_router, prefix="")
+app.include_router(events_router, prefix="")
 
 
 if __name__ == "__main__":
