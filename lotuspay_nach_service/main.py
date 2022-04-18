@@ -7,6 +7,7 @@ from routes.subscriptions import router as subscriptions_router
 from routes.ach_debits import router as achdebits_router
 from routes.mandates import router as mandate_router
 from routes.events_status import router as events_router
+from routes.lotuspay_events import router as lotuspay_event_router
 from data.database import get_database, sqlalchemy_engine
 from data.customer_model import (customer_metadata)
 from data.bankaccount_model import (bankaccount_metadata)
@@ -14,6 +15,7 @@ from data.source_model import (source_metadata)
 from data.subscription_model import (subscription_metadata)
 from data.achdebit_model import (achdebit_metadata)
 from data.mandate_model import (mandate_metadata)
+from data.events_model import (events_metadata)
 
 from data.logs_model import (logs_metadata)
 
@@ -44,6 +46,7 @@ async def startup():
     logs_metadata.create_all(sqlalchemy_engine)
     achdebit_metadata.create_all(sqlalchemy_engine)
     mandate_metadata.create_all(sqlalchemy_engine)
+    events_metadata.create_all(sqlalchemy_engine)
 
 
 @app.on_event("shutdown")
@@ -57,6 +60,7 @@ app.include_router(subscriptions_router, prefix="")
 app.include_router(achdebits_router, prefix="")
 app.include_router(mandate_router, prefix="")
 app.include_router(events_router, prefix="")
+app.include_router(lotuspay_event_router, prefix="")
 
 
 if __name__ == "__main__":
