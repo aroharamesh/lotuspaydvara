@@ -63,6 +63,25 @@ class Source3Create(BaseModel):
     bank_account: Optional[str] = 'BA004433221AA'
 
 
+class NachDebitBase5(BaseModel):
+    amount_maximum: Optional[int] = 10000
+    date_first_collection:Optional[str]='2020-01-01'
+    debtor_account_name: Optional[str] = 'DVARA'
+    debtor_account_number: Optional[str] = '123456'
+    debtor_account_type: Optional[str] = 'savings'
+    debtor_agent_mmbid: Optional[str]='ICIC0000001'
+    debtor_email: Optional[str]='test@lotuspay.com'
+    debtor_mobile: Optional[str]='9123456789'
+    frequency: Optional[str] = 'MNTH'
+    reference1: Optional[str] = 'LOAN_ID_123'
+    variant: Optional[str]= "physical"
+
+
+class Source5Create(BaseModel):
+    type: Optional[str] = 'nach_debit'
+    nach_debit: NachDebitBase5
+
+
 class SourceDB(SourceBase):
     id: int
 
@@ -92,5 +111,8 @@ sources = sqlalchemy.Table(
     sqlalchemy.Column("customer", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account_token", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("source_status", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("mandate_id", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("mandate_status", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )

@@ -7,6 +7,7 @@ from routes.subscriptions import router as subscriptions_router
 from routes.ach_debits import router as achdebits_router
 from routes.mandates import router as mandate_router
 from routes.events_status import router as events_router
+from routes.perdix import router as perdix_router
 from routes.lotuspay_events import router as lotuspay_event_router
 from data.database import get_database, sqlalchemy_engine
 from data.customer_model import (customer_metadata)
@@ -55,6 +56,7 @@ async def shutdown():
 
 app.include_router(customer_router, prefix="")
 app.include_router(bank_account_router, prefix="/bank-account")
+app.include_router(perdix_router, prefix="")
 app.include_router(source_router, prefix="")
 app.include_router(subscriptions_router, prefix="")
 app.include_router(achdebits_router, prefix="")

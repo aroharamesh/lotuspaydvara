@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Body
+from fastapi import APIRouter, Depends, status, Body, Request
 from fastapi.responses import JSONResponse
 from datetime import datetime
 import json
@@ -20,11 +20,13 @@ router = APIRouter()
 @router.post("/lotuspay-events",  status_code=status.HTTP_200_OK,  tags=["Lotuspay Events"])
 async def create_events(
     payload: Dict = Body(...),
+    # payload: Request,
     database: Database = Depends(get_database)
 ):
     try:
         msg = payload['serialized_response']
-        print('printing serialized response - ', msg)
+        test = json.dumps(msg)
+        print('printing serialized response - ', test)
         iv = msg[:16].encode('utf-8')
         decipher = AES.new('whk_:PqnYy_VUz7Z'.encode('utf-8'), AES.MODE_CBC, iv=iv)
         cipher_text = b64decode(msg[16:].encode('utf-8'))
