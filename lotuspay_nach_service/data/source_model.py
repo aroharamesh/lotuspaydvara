@@ -116,3 +116,22 @@ sources = sqlalchemy.Table(
     sqlalchemy.Column("mandate_status", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )
+
+perdix_metadata = sqlalchemy.MetaData()
+
+perdix_customer = sqlalchemy.Table(
+    "perdix_customer",
+    perdix_metadata ,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True, autoincrement=True),
+    sqlalchemy.Column("source_id", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("mandate_url", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("source_status",sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("mandate_id",sqlalchemy.String(length=255),nullable=True),
+    sqlalchemy.Column("mandate_status",sqlalchemy.String(length=255),nullable=True),
+    sqlalchemy.Column("perdix_customer_id", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("perdix_enrollment_id", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("lotuspay_customer_id", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("bank_account", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("bank_account_token", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
+)

@@ -57,7 +57,6 @@ async def lotus_pay_post_source3(context, data):
         url = f'http://api-test.lotuspay.com/v1/{context}'
         str_url = str(url)
         str_data = str(data)
-        print('coming inside source3 ', data)
         source_context_response = requests.post(url, json=data, auth=('sk_test_5kCfPu3Wx6VBNZsbc6a6TibS', ''))
         source_context_dict = response_to_dict(source_context_response)
         source_context_response_id = source_context_dict.get('id')
@@ -79,46 +78,36 @@ async def lotus_pay_source_status(source_id):
         url = validate_url + f'/sources/{source_id}'
         str_url = str(url)
         source_context_response = requests.get(url, auth=(api_key, ''))
-        # print('coming outside of source status', source_context_response)
-        # str_data = str(data)
-        # url = f'api-test.lotuspay.com/v1/sources/{source_id}'
-
-        # str_url = str(url)
-        # source_context_response = requests.get(url, auth=('sk_test_5kCfPu3Wx6VBNZsbc6a6TibS', ''))
-        # print('coming after getting the status', source_context_response)
         source_context_dict = response_to_dict(source_context_response)
-        # print('source_context_dict - ', source_context_dict)
         source_context_response_id = source_context_dict.get('mandate')
-        # log_id = await insert_logs(str_url, 'LOTUSPAY', str_data, source_context_response.status_code,
-        #                            source_context_response.content, datetime.now())
+        log_id = await insert_logs(str_url, 'LOTUSPAY', 'GET SOURCE STATUS', source_context_response.status_code,
+                                   source_context_response.content, datetime.now())
 
         result = source_context_response_id
-        # result = JSONResponse(status_code=500,
-        #                       content={"message": f"Error Occurred at LotusPay Post Method - {e.args[0]}"})
     except Exception as e:
-        # log_id = await insert_logs(str_url, 'LOTUSPAY', str_data, source_context_response.status_code,
-        #                            source_context_response.content, datetime.now())
+        log_id = await insert_logs(str_url, 'LOTUSPAY', 'GET SOURCE STATUS', source_context_response.status_code,
+                                   source_context_response.content, datetime.now())
         result = JSONResponse(status_code=500,
                               content={"message": f"Error Occurred at LotusPay Post Method - {e.args[0]}"})
     return result
 
 
-async def lotus_pay_post_source5(context, data):
+async def lotus_pay_post_source5(context, data, perdix=None):
     """ Generic Post Method for lotuspay Sources """
     try:
-        url = f'https://api-test.lotuspay.com/v1/{context}'
+        validate_url = get_env_or_fail(LOTUSPAY_SERVER, 'base-url', LOTUSPAY_SERVER + ' base-url not configured')
+        api_key = get_env_or_fail(LOTUSPAY_SERVER, 'api-key', LOTUSPAY_SERVER + ' api-key not configured')
+        url = validate_url + f'/{context}'
         str_url = str(url)
         str_data = str(data)
-        # print('coming inside source5 ', data)
-        source_context_response = requests.post(url, json=data, auth=('sk_test_5kCfPu3Wx6VBNZsbc6a6TibS', ''))
-        print("-------------source_context_response-------------")
-        print(source_context_response.json())
+        source_context_response = requests.post(url, json=data, auth=(api_key, ''))
         source_context_dict = response_to_dict(source_context_response)
-        print(source_context_dict)
         source_context_response_id = source_context_dict.get('id')
-        print(f"---------source_context_response_id------{source_context_response_id}")
-        log_id = await insert_logs(str_url, 'LOTUSPAY', str_data, source_context_response.status_code, source_context_response.content, datetime.now())
-        result = source_context_response_id
+        log_id = await insert_logs(str_url, 'LOTUSPAY' , str_data, source_context_response.status_code, source_context_response.content, datetime.now())
+        if perdix:
+            result=source_context_dict
+        else:
+            result = source_context_response_id
     except Exception as e:
         log_id = await insert_logs(str_url, 'LOTUSPAY', str_data, source_context_response.status_code, source_context_response.content, datetime.now())
         result = JSONResponse(status_code=500, content={"message": "Error Occurred at LotusPay Post Method"})

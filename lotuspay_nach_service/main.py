@@ -12,11 +12,12 @@ from routes.lotuspay_events import router as lotuspay_event_router
 from data.database import get_database, sqlalchemy_engine
 from data.customer_model import (customer_metadata)
 from data.bankaccount_model import (bankaccount_metadata)
-from data.source_model import (source_metadata)
+from data.source_model import source_metadata, perdix_metadata
 from data.subscription_model import (subscription_metadata)
 from data.achdebit_model import (achdebit_metadata)
 from data.mandate_model import (mandate_metadata)
 from data.events_model import (events_metadata)
+
 
 from data.logs_model import (logs_metadata)
 
@@ -43,6 +44,7 @@ async def startup():
     customer_metadata.create_all(sqlalchemy_engine)
     bankaccount_metadata.create_all(sqlalchemy_engine)
     source_metadata.create_all(sqlalchemy_engine)
+    perdix_metadata.create_all(sqlalchemy_engine)
     subscription_metadata.create_all(sqlalchemy_engine)
     logs_metadata.create_all(sqlalchemy_engine)
     achdebit_metadata.create_all(sqlalchemy_engine)
