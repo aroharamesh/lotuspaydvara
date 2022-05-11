@@ -4,9 +4,9 @@ from fastapi.responses import JSONResponse
 from datetime import datetime
 
 from databases import Database
-from data.database import get_database, sqlalchemy_engine, insert_logs
-from gateway.lotuspay_ach_debit import lotus_pay_achdebit_post, lotus_pay_achdebit_cancel
-from data.achdebit_model import (
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine, insert_logs
+from lotuspay_nach_service.gateway.lotuspay_ach_debit import lotus_pay_achdebit_post, lotus_pay_achdebit_cancel
+from lotuspay_nach_service.data.achdebit_model import (
     achdebits,
     achdebits_cancel,
     ACHDebitBase,

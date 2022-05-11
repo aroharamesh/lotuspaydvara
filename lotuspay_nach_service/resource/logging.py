@@ -1,8 +1,8 @@
 import logging
 from fastapi import Depends
-from data.logs_model import applogs
+from lotuspay_nach_service.data.logs_model import applogs
 from databases import Database
-from data.database import get_database, sqlalchemy_engine
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine
 
 
 async def nach_log():

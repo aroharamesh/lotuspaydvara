@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
 import requests
-from commons import get_env_or_fail
-from resource.generics import response_to_dict
+from lotuspay_nach_service.commons import get_env_or_fail
+from lotuspay_nach_service.resource.generics import response_to_dict
 
 
 LOTUSPAY_SERVER = 'lotus-pay-server'

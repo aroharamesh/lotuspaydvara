@@ -3,11 +3,11 @@ from fastapi.responses import JSONResponse
 from datetime import datetime
 
 from databases import Database
-from data.database import get_database, sqlalchemy_engine, insert_logs
-from gateway.lotuspay_mandate import lotus_pay_patch_mandate, lotus_pay_mandate_cancel
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine, insert_logs
+from lotuspay_nach_service.gateway.lotuspay_mandate import lotus_pay_patch_mandate, lotus_pay_mandate_cancel
 
 
-from data.mandate_model import (
+from lotuspay_nach_service.data.mandate_model import (
     mandates,
     MandateBase,
     MandateDB,

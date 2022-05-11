@@ -1,10 +1,10 @@
 from datetime import datetime
 import requests
-from resource.generics import response_to_dict
+from lotuspay_nach_service.resource.generics import response_to_dict
 from fastapi.responses import JSONResponse
-from data.database import insert_logs
-from gateway.lotuspay_source import lotus_pay_post_source5
-from commons import get_env_or_fail
+from lotuspay_nach_service.data.database import insert_logs
+from lotuspay_nach_service.gateway.lotuspay_source import lotus_pay_post_source5
+from lotuspay_nach_service.commons import get_env_or_fail
 
 
 PERDIX_SERVER = 'perdix-server'
@@ -18,8 +18,10 @@ async def perdix_post_login():
         password = get_env_or_fail(PERDIX_SERVER, 'password', PERDIX_SERVER + ' password not configured')
         # url = validate_url + f'/{context}/'
         url = validate_url + f'/oauth/token?client_id=application&client_secret=mySecretOAuthSecret&grant_type=password&password={password}&scope=read+write&skip_relogin=yes&username={username}'
+        print(url)
         str_url = str(url)
         login_context_response = requests.post(url)
+        print(login_context_response)
         login_context_dict = response_to_dict(login_context_response)
         access_token = login_context_dict.get('access_token')
         log_id = await insert_logs(str_url, 'PERDIX', 'LOGIN', login_context_response.status_code, login_context_response.content, datetime.now())
