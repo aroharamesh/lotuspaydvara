@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from datetime import datetime
 from databases import Database
-from data.database import get_database, sqlalchemy_engine, insert_logs
-from gateway.lotuspay_subscriptions import lotus_pay_post_subscriptions, lotus_pay_subscription_cancel
-from data.subscription_model import (
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine, insert_logs
+from lotuspay_nach_service.gateway.lotuspay_subscriptions import lotus_pay_post_subscriptions, lotus_pay_subscription_cancel
+from lotuspay_nach_service.data.subscription_model import (
     SubscriptionBase,
     subscriptions,
     SubscriptionCreate,

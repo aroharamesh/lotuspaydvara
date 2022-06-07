@@ -1,9 +1,9 @@
 from datetime import datetime
 import requests
-from resource.generics import response_to_dict
+from lotuspay_nach_service.resource.generics import response_to_dict
 from fastapi.responses import JSONResponse
-from data.database import get_database, sqlalchemy_engine, insert_logs
-from commons import get_env_or_fail
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine, insert_logs
+from lotuspay_nach_service.commons import get_env_or_fail
 
 
 LOTUSPAY_SERVER = 'lotus-pay-server'

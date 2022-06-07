@@ -5,10 +5,10 @@ from fastapi.responses import JSONResponse
 from datetime import datetime
 from sqlalchemy.sql import text
 from databases import Database
-from data.database import get_database, sqlalchemy_engine, insert_logs
-from gateway.lotuspay_source import lotus_pay_post_source, lotus_pay_post_source2, lotus_pay_post_source3, lotus_pay_source_status, lotus_pay_post_source5
+from lotuspay_nach_service.data.database import get_database, sqlalchemy_engine, insert_logs
+from lotuspay_nach_service.gateway.lotuspay_source import lotus_pay_post_source, lotus_pay_post_source2, lotus_pay_post_source3, lotus_pay_source_status, lotus_pay_post_source5
 from .events_status import get_event_status
-from data.source_model import (
+from lotuspay_nach_service.data.source_model import (
     sources,
     SourceBase,
     SourceCreate,

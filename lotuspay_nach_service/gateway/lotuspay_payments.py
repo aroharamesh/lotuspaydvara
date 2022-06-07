@@ -1,8 +1,8 @@
 from datetime import datetime
 import requests
-from resource.generics import response_to_dict
+from lotuspay_nach_service.resource.generics import response_to_dict
 from fastapi.responses import JSONResponse
-from data.database import insert_logs
+from lotuspay_nach_service.data.database import insert_logs
 
 
 async def lotus_pay_payments_post(context, data):

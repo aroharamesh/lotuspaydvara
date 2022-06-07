@@ -133,5 +133,7 @@ perdix_customer = sqlalchemy.Table(
     sqlalchemy.Column("lotuspay_customer_id", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account", sqlalchemy.String(length=255), nullable=True),
     sqlalchemy.Column("bank_account_token", sqlalchemy.String(length=255), nullable=True),
+    sqlalchemy.Column("iterations", sqlalchemy.Integer, default=0, nullable=True),
+    sqlalchemy.Column("pending", sqlalchemy.Boolean, default=0, nullable=True),
     sqlalchemy.Column("created_date", sqlalchemy.DateTime(), nullable=True)
 )
