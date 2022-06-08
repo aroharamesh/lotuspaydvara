@@ -97,6 +97,10 @@ async def lotus_pay_post_source5(context, data, perdix=None):
     try:
         validate_url = get_env_or_fail(LOTUSPAY_SERVER, 'base-url', LOTUSPAY_SERVER + ' base-url not configured')
         api_key = get_env_or_fail(LOTUSPAY_SERVER, 'api-key', LOTUSPAY_SERVER + ' api-key not configured')
+        creditor_utility_code = get_env_or_fail(LOTUSPAY_SERVER, "creditor-utility-code", LOTUSPAY_SERVER + "creditor-utility-code not configured")
+        creditor_agent_code = get_env_or_fail(LOTUSPAY_SERVER, "creditor-agent-code", LOTUSPAY_SERVER + "creditor-agent-code not configured")
+        data["nach_debit"]["creditor_utility_code"] = creditor_utility_code
+        data["nach_debit"]["creditor_agent_code"] = creditor_agent_code
         url = validate_url + f'/{context}'
         str_url = str(url)
         str_data = str(data)

@@ -1,6 +1,6 @@
 import logging
 from starlette.responses import Response
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Request
 from fastapi.responses import JSONResponse
 from datetime import datetime
 from databases import Database
@@ -23,11 +23,13 @@ router = APIRouter(
 
 @router.post("/perdix/{customer_id}", status_code=status.HTTP_200_OK, tags=["Perdix"])
 async def get_customer(customer_id,
+                       request_info: Request,
                        x_token: str = Depends(get_token_header),
                        database: Database = Depends(get_database)
                        ) -> SourceDB:
     try:
 
+        payload = await request_info.json()
         store_record_time = datetime.now()
         result = {}
         request_payload = {
@@ -50,7 +52,7 @@ async def get_customer(customer_id,
             result["debtor_account_name"] = firstName + '' + lastName
             result["amount_maximum"] = 10000
             result["debtor_email"] = (get_perdix_data.get("emailId") if get_perdix_data.get("emailId") else "")
-            result["debtor_mobile"] = (get_perdix_data.get("mobileNo") if get_perdix_data.get("mobileNo") else "")
+            result["debtor_mobile"] = (get_perdix_data.get("mobilePhone") if get_perdix_data.get("mobilePhone") else "")
             customer_bank_details = get_perdix_data.get('customerBankAccounts')
             # print('customer bank account details', customer_bank_details, len(customer_bank_details))
             if len(customer_bank_details) > 0:
@@ -94,8 +96,10 @@ async def get_customer(customer_id,
                                            'customer bank details not found',
                                            datetime.now())
                 return result
-
             request_payload["nach_debit"] = result
+
+            if 'return_url' in payload:
+                request_payload["redirect"] = { 'return_url': payload['return_url'] }
 
             source_detail = await lotus_pay_post_source5('sources', request_payload, perdix=True)
             if source_detail.get('error'):
