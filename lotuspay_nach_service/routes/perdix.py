@@ -30,6 +30,8 @@ async def get_customer(customer_id,
     try:
 
         payload = await request_info.json()
+        amount_maximum = payload["amount_maximum"]
+        frequency = payload["frequency"]
         store_record_time = datetime.now()
         result = {}
         request_payload = {
@@ -50,7 +52,8 @@ async def get_customer(customer_id,
             firstName = (get_perdix_data.get("firstName") if get_perdix_data.get("firstName") else "")
             lastName = (get_perdix_data.get("lastName") if get_perdix_data.get("lastName") else "")
             result["debtor_account_name"] = firstName + '' + lastName
-            result["amount_maximum"] = 10000
+            result["amount_maximum"] = amount_maximum
+            result["frequency"] = frequency
             result["debtor_email"] = (get_perdix_data.get("emailId") if get_perdix_data.get("emailId") else "")
             result["debtor_mobile"] = (get_perdix_data.get("mobilePhone") if get_perdix_data.get("mobilePhone") else "")
             customer_bank_details = get_perdix_data.get('customerBankAccounts')
